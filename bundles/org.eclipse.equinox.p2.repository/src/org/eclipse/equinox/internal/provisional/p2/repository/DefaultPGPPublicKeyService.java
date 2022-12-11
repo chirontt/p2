@@ -742,12 +742,7 @@ public class DefaultPGPPublicKeyService extends PGPPublicKeyService {
 
 		public GPGPubringSupplier(Path pubring) {
 			this.pubring = pubring;
-			try {
-				keyRingCollection = new PGPPublicKeyRingCollection(Collections.emptyList());
-			} catch (IOException | PGPException e) {
-				// Cannot happen for an empty collection.
-				throw new RuntimeException(e);
-			}
+			keyRingCollection = new PGPPublicKeyRingCollection(Collections.emptyList());
 		}
 
 		@Override
@@ -811,7 +806,7 @@ public class DefaultPGPPublicKeyService extends PGPPublicKeyService {
 			PGPPublicKeyRingCollection empty;
 			try {
 				empty = new PGPPublicKeyRingCollection(Collections.emptyList());
-			} catch (IOException | PGPException e) {
+			} catch (Exception e) {
 				// Cannot happen for an empty collection.
 				throw new RuntimeException(e);
 			}

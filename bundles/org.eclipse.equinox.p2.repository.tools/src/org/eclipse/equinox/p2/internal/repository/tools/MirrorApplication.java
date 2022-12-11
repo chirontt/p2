@@ -25,6 +25,7 @@ import org.eclipse.equinox.internal.p2.director.PermissiveSlicer;
 import org.eclipse.equinox.internal.p2.director.Slicer;
 import org.eclipse.equinox.internal.p2.repository.Transport;
 import org.eclipse.equinox.internal.p2.repository.helpers.RepositoryHelper;
+import org.eclipse.equinox.p2.core.IProvisioningAgent;
 import org.eclipse.equinox.p2.core.ProvisionException;
 import org.eclipse.equinox.p2.engine.*;
 import org.eclipse.equinox.p2.internal.repository.comparator.ArtifactChecksumComparator;
@@ -39,7 +40,7 @@ import org.eclipse.equinox.p2.repository.metadata.IMetadataRepository;
 import org.eclipse.osgi.util.NLS;
 
 public class MirrorApplication extends AbstractApplication implements IApplication, IExecutableExtension {
-	private static final String MD5_COMPARATOR = ArtifactChecksumComparator.COMPARATOR_ID + ".md5"; //$NON-NLS-1$
+	private static final String DEFAULT_COMPARATOR = ArtifactChecksumComparator.COMPARATOR_ID + ".sha-256"; //$NON-NLS-1$
 	private static final String LOG_ROOT = "p2.mirror"; //$NON-NLS-1$
 	private static final String MIRROR_MODE = "metadataOrArtifacts"; //$NON-NLS-1$
 
@@ -63,6 +64,14 @@ public class MirrorApplication extends AbstractApplication implements IApplicati
 	private File comparatorLogFile; // file to comparator output to (optional)
 	private IArtifactMirrorLog mirrorLog;
 	private IArtifactMirrorLog comparatorLog;
+
+	public MirrorApplication() {
+		super();
+	}
+
+	public MirrorApplication(IProvisioningAgent agent) {
+		super(agent);
+	}
 
 	/**
 	 * Convert a list of tokens into an array. The list separator has to be
@@ -241,7 +250,7 @@ public class MirrorApplication extends AbstractApplication implements IApplicati
 
 		Mirroring mirror = new Mirroring(getCompositeArtifactRepository(), destinationArtifactRepository, raw);
 		mirror.setCompare(compare);
-		mirror.setComparatorId(comparatorID == null ? MD5_COMPARATOR : comparatorID);
+		mirror.setComparatorId(comparatorID == null ? DEFAULT_COMPARATOR : comparatorID);
 		mirror.setBaseline(initializeBaseline());
 		mirror.setValidate(validate);
 		mirror.setCompareExclusions(compareExclusions);
