@@ -122,7 +122,8 @@ public class BrandingIron {
 				brandWindows(descriptor);
 				break;
 			case "linux": //$NON-NLS-1$
-				brandLinux(descriptor);
+			case "freebsd": //$NON-NLS-1$
+				brandUnix(descriptor);
 				break;
 			case "solaris": //$NON-NLS-1$
 				brandSolaris(descriptor);
@@ -151,7 +152,7 @@ public class BrandingIron {
 		renameLauncher(descriptor);
 	}
 
-	private void brandLinux(ExecutablesDescriptor descriptor) throws Exception {
+	private void brandUnix(ExecutablesDescriptor descriptor) throws Exception {
 		renameLauncher(descriptor);
 		if (brandIcons) {
 			File icon = null;
